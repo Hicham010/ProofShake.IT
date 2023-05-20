@@ -24,7 +24,7 @@ function resolveBody(req, body)
         message : 'default' 
     }
 
-    if (req.method === "POST" && req.url === "/session-status") 
+    if (req.method === "POST" && req.url.endsWith("/session-status"))
     {
         const status = sessions[jsonbody["sessionid"]]
 
@@ -36,7 +36,7 @@ function resolveBody(req, body)
         }
     } 
 
-    else if (req.method === "POST" && req.url === "/create-session") 
+    else if (req.method === "POST" && req.url.endsWith("/create-session"))
     {
         console.log(sessions)
 
@@ -49,7 +49,7 @@ function resolveBody(req, body)
         }
     }
 
-    else if (req.method === "POST" && req.url === "/submit-session-result") 
+    else if (req.method === "POST" && req.url.endsWith("/submit-session-result"))
     {
         json_response = {
             status : 400
