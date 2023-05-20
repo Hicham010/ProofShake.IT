@@ -7,7 +7,6 @@ const serverDomain = "127.0.0.1"
 const serverPort = 3000
 
 const STATUS_PENDING = 0
-const STATUS_COMPLETE = 1
 var sessions = {}
 
 function genUUID()
@@ -25,7 +24,7 @@ function resolveBody(req, res, body)
         message : 'default' 
     }
 
-    if (req.method === "POST" && req.url === "/session-result") 
+    if (req.method === "POST" && req.url === "/session-status") 
     {
         const status = sessions[jsonbody["sessionid"]]
 
@@ -33,7 +32,7 @@ function resolveBody(req, res, body)
         json_response = {
             status : status === undefined ?  400 : 200,
             sessionstatus: status,
-            sessionmessage: status === undefined ? undefined : "<data here>"
+            sessionmessage: status === undefined ? undefined : jsonbody["proofstring"]
         }
     } 
 
@@ -47,6 +46,21 @@ function resolveBody(req, res, body)
         json_response = {
             status : 200 , 
             id : newid
+        }
+    }
+
+    else if (req.method === "POST" && req.url === "/submit-session-result") 
+    {
+        json_response = {
+            status : 400
+        }
+
+        if (sessions[jsonbody["sessionid"]] !== undefined) {
+            sessions[jsonbody["sessionid"]] = jsonbody["proofstring"]
+
+            json_response = {
+                status : 200
+            }
         }
     }
 
