@@ -4,7 +4,7 @@ import { useAccount, useEnsAddress } from "wagmi";
 import { baseUrl } from "./constants";
 import { useCreateSessionMutation, useGetStatusSessionQuery } from "./app/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { isValidName, verifyMessage } from "ethers/lib/utils.js";
+import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
 import { constants } from "ethers";
 
 function Challenge() {
@@ -120,9 +120,19 @@ function Challenge() {
                 Verified address: {userAddress}
               </h1>
 
-              <h1 style={{ textAlign: "center" }}>
-                Owner of '{ensNameInput}' is {ensNameOwner}
-              </h1>
+              {!isAddress(ensNameInput) && (
+                <>
+                  {ensNameOwner ? (
+                    <h1 style={{ textAlign: "center" }}>
+                      Owner of '{ensNameInput}' is {ensNameOwner}
+                    </h1>
+                  ) : (
+                    <h1 style={{ textAlign: "center" }}>
+                      '{ensNameInput}' doesn't have an owner
+                    </h1>
+                  )}
+                </>
+              )}
 
               {ensNameOwner === userAddress ? (
                 <h3 style={{ textAlign: "center" }}>

@@ -1,7 +1,7 @@
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import { constants } from "ethers";
-import { verifyMessage } from "ethers/lib/utils.js";
+import { isAddress, verifyMessage } from "ethers/lib/utils.js";
 import { useParams } from "react-router-dom";
 import { useAccount, useEnsAddress, useSignMessage } from "wagmi";
 import { useSubmitSessionResultMutation } from "./app/api";
@@ -64,9 +64,19 @@ function Prover() {
             Verified address: {userAddress}
           </h1>
 
-          <h1 style={{ textAlign: "center" }}>
-            Owner of '{ensName}' is {ensNameOwner}
-          </h1>
+          {!isAddress(ensName) && (
+            <>
+              {ensNameOwner ? (
+                <h1 style={{ textAlign: "center" }}>
+                  Owner of '{ensName}' is {ensNameOwner}
+                </h1>
+              ) : (
+                <h1 style={{ textAlign: "center" }}>
+                  '{ensName}' doesn't have an owner
+                </h1>
+              )}
+            </>
+          )}
 
           {ensNameOwner === userAddress ? (
             <h3 style={{ textAlign: "center" }}>
