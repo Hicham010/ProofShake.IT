@@ -1,50 +1,13 @@
+import { useEffect } from "react";
+import VerifyTokenOwnership from "./VerifyTokenOwnership";
+import { Button, message } from "antd";
+import { Link, Route, Switch } from "react-router-dom";
+import Challenge from "./Challenge";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { erc721ABI, useAccount, useContractRead, useSignMessage } from "wagmi";
-import { isAddress, verifyMessage } from "ethers/lib/utils.js";
-import { Button, Input, InputNumber, message } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-import { BigNumber, constants } from "ethers";
+import Prover from "./Prover";
+import Verifier from "./Verifier";
 
 function App() {
-  const { address, isConnected } = useAccount({ onConnect: () => reset() });
-  const messageToSign = "gm wagmi frens";
-  const {
-    data = "0x0",
-    isSuccess,
-    isLoading,
-    signMessage,
-    reset,
-  } = useSignMessage({
-    message: messageToSign,
-  });
-
-  const [contractAddress, setContractAddress] = useState<`0x${string}`>(
-    constants.AddressZero
-  );
-  const [tokenId, setTokenId] = useState<BigNumber>(constants.Zero);
-
-  const {
-    data: ownerAddress = constants.AddressZero,
-    isSuccess: isOwnerAddressRetrieved,
-  } = useContractRead({
-    abi: erc721ABI,
-    address: contractAddress,
-    functionName: "ownerOf",
-    args: [tokenId],
-    enabled:
-      isConnected &&
-      contractAddress !== constants.AddressZero &&
-      tokenId !== constants.Zero,
-  });
-
-  console.log(ownerAddress);
-
-  const userAddress =
-    isSuccess && isOwnerAddressRetrieved
-      ? verifyMessage(messageToSign, data)
-      : constants.AddressZero;
-
   useEffect(() => {
     message.error({
       content: "No Internet Connection",
@@ -62,72 +25,44 @@ function App() {
         />
       </div>
 
-      {isConnected && (
-        <h1 style={{ textAlign: "center" }}>Your address: {address}</h1>
-      )}
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "2%",
-        }}
-      >
-        <Input
-          style={{ margin: "10px", width: "50%" }}
-          placeholder="Contract Address"
-          onChange={(e) => {
-            if (!isAddress(e.target.value))
-              console.log("Not a valid Eth address");
-
-            setContractAddress(e.target.value as `0x${string}`);
-          }}
-        />
-
-        <InputNumber
-          style={{ margin: "10px", width: "50%" }}
-          placeholder="Token Id"
-          onChange={(userSuppliedTokenId) => {
-            console.log(userSuppliedTokenId);
-            setTokenId(BigNumber.from(userSuppliedTokenId));
-          }}
-        />
-        {/* <Form.Item>
-          <DatePicker />
-        </Form.Item> */}
-      </div>
-
-      {isConnected && (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            type="primary"
-            onClick={() => signMessage()}
-            loading={isLoading}
+      <Switch>
+        <Route
+          exact
+          path={"/"}
+        >
+          <h1 style={{ textAlign: "center" }}>Proof Stake</h1>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "15px",
+            }}
           >
-            Sign to Verify
-          </Button>
-        </div>
-      )}
-
-      {isOwnerAddressRetrieved && isSuccess && (
-        <>
-          <h1 style={{ textAlign: "center" }}>
-            Verified address: {userAddress}
-          </h1>
-          <h1 style={{ textAlign: "center" }}>
-            Owner of token {tokenId.toString()} is {ownerAddress}
-          </h1>
-          {ownerAddress === userAddress ? (
-            <h3 style={{ textAlign: "center" }}>
-              Address is right <CheckOutlined style={{ color: "green" }} />
-            </h3>
-          ) : (
-            <h3 style={{ textAlign: "center" }}>
-              Address is wrong <CloseOutlined style={{ color: "red" }} />
-            </h3>
-          )}
-        </>
-      )}
+            <Link to="/verifyOwernship">Create proof of ownership</Link>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "15px",
+            }}
+          >
+            <Link to="/challenge">Challenge</Link>
+          </div>
+        </Route>
+        <Route path={"/verifyOwernship"}>
+          <VerifyTokenOwnership />
+        </Route>
+        <Route path={"/challenge"}>
+          <Challenge />
+        </Route>
+        <Route path={"/prover/:ensName"}>
+          <Prover />
+        </Route>
+        <Route path={"/verifier/:signature/:ensName"}>
+          <Verifier />
+        </Route>
+      </Switch>
     </>
   );
 }
