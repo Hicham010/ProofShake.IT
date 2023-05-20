@@ -5,4 +5,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   base: "/ProofShake.IT/",
+  server: {
+    proxy: {
+      "/server": "https://proofshake.it",
+    },
+  },
 });

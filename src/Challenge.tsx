@@ -2,12 +2,19 @@ import { Button, Input, QRCode } from "antd";
 import { useState } from "react";
 import { useAccount } from "wagmi";
 import { baseUrl } from "./constants";
+import { useCreateSessionMutation } from "./app/api";
 
 function Challenge() {
   const { isConnected } = useAccount();
   const [ensNameInput, setEnsNameInput] = useState("");
   const [isChallengeVis, setIsChallengeVis] = useState(false);
 
+  const [createSession, { data, isLoading, isSuccess }] =
+    useCreateSessionMutation();
+
+  if (isSuccess) {
+    console.log(data);
+  }
   return (
     <>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -35,6 +42,12 @@ function Challenge() {
           </div>
         </>
       )}
+      <Button
+        type="primary"
+        onClick={() => createSession("")}
+      >
+        Create Session
+      </Button>
     </>
   );
 }

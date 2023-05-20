@@ -5,13 +5,21 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const serverApi = createApi({
   reducerPath: "serverApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://proofshake.it/server/create/session",
+    baseUrl: "/server/",
   }),
   endpoints: (builder) => ({
-    createSession: builder.mutation<any, string>({
+    createSession: builder.mutation({
+      query() {
+        return {
+          url: "create-session",
+          method: "POST",
+        };
+      },
+    }),
+    statusSession: builder.mutation({
       query(body) {
         return {
-          url: "create/session",
+          url: "status-session",
           method: "POST",
           body,
         };
@@ -22,4 +30,4 @@ export const serverApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useCreateSessionMutation } = serverApi;
+export const { useCreateSessionMutation, useStatusSessionMutation } = serverApi;
