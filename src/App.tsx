@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import VerifyTokenOwnership from "./VerifyTokenOwnership";
-import { Button, Image, message } from "antd";
+import { Button, message } from "antd";
 import { Route, Switch, useHistory } from "react-router-dom";
 import Challenge from "./Challenge";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -34,10 +34,9 @@ function App() {
           path={"/"}
         >
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Image
+            <img
               width={400}
-              preview={false}
-              src="./public/proofShakeLogo.PNG"
+              src="proofShakeLogo.png"
             />
           </div>
           <h1 style={{ textAlign: "center" }}>Do you want to</h1>
