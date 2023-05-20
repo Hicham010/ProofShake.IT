@@ -1,7 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { erc721ABI, useAccount, useContractRead, useSignMessage } from "wagmi";
 import { isAddress, verifyMessage } from "ethers/lib/utils.js";
-import { Button, DatePicker, Input, InputNumber, message } from "antd";
+import { Button, Input, InputNumber, message } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { BigNumber, constants } from "ethers";
@@ -37,6 +37,8 @@ function App() {
       contractAddress !== constants.AddressZero &&
       tokenId !== constants.Zero,
   });
+
+  console.log(ownerAddress);
 
   const userAddress =
     isSuccess && isOwnerAddressRetrieved
