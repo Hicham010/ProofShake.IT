@@ -14,7 +14,7 @@ function genUUID()
     return crypto.randomBytes(20).toString('hex')
 }
 
-function resolveBody(req, res, body)
+function resolveBody(req, body)
 {
     jsonbody = JSON.parse(body)
 
@@ -75,7 +75,10 @@ http.createServer(function (req, res) {
         body += chunk;
     });
     req.on('end', () => {
-        let json_response = resolveBody(req, res, body)
+        if (body== '')
+            body = '{}'
+
+        let json_response = resolveBody(req, body)
 
         //change the MIME type to 'application/json' 
         res.writeHead(200, {'Content-Type': 'application/json'});
