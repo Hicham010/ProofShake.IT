@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import VerifyTokenOwnership from "./VerifyTokenOwnership";
 import { Button, message } from "antd";
-import { Link, Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import Challenge from "./Challenge";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Prover from "./Prover";
 import Verifier from "./Verifier";
+import VerifyAddressOwnership from "./VerifyAddressOwnership";
 
 function App() {
   useEffect(() => {
@@ -15,6 +16,8 @@ function App() {
       duration: navigator.onLine ? Infinity : 0,
     });
   }, []);
+
+  const history = useHistory();
 
   return (
     <>
@@ -30,28 +33,41 @@ function App() {
           exact
           path={"/"}
         >
-          <h1 style={{ textAlign: "center" }}>Proof Stake</h1>
+          <h1 style={{ textAlign: "center" }}>Proof Shake</h1>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               margin: "15px",
+              alignItems: "baseline",
             }}
           >
-            <Link to="/verifyOwernship">Create proof of ownership</Link>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "15px",
-            }}
-          >
-            <Link to="/challenge">Challenge</Link>
+            <Button
+              style={{ width: "35%", margin: "0 50px" }}
+              type="primary"
+              onClick={() => history.push("/verifyAddressOwernship")}
+            >
+              Single Proof
+            </Button>
+            <h1>Or</h1>
+            <Button
+              style={{ width: "35%", margin: "0 50px" }}
+              type="primary"
+              onClick={() => history.push("/challenge")}
+            >
+              Challenge
+            </Button>
           </div>
         </Route>
         <Route path={"/verifyOwernship"}>
           <VerifyTokenOwnership />
+        </Route>
+        <Route
+          path={
+            "/verifyAddressOwernship/:signatureFromParams?/:ensNameFromParams?"
+          }
+        >
+          <VerifyAddressOwnership />
         </Route>
         <Route path={"/challenge"}>
           <Challenge />

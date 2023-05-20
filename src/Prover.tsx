@@ -13,9 +13,7 @@ function Prover() {
   const {
     data = "0x0",
     isSuccess,
-    isLoading,
     signMessage,
-    reset,
   } = useSignMessage({
     message: messageToSign,
   });

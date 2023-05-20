@@ -1,6 +1,6 @@
 import { Button, Input, QRCode } from "antd";
 import { useState } from "react";
-import { useAccount, useEnsName } from "wagmi";
+import { useAccount } from "wagmi";
 import { baseUrl } from "./constants";
 
 function Challenge() {

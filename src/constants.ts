@@ -1,1 +1,5 @@
-export const baseUrl = "http://localhost:5173/hackathon-proof-of-address/#";
+const baseUrlpriv = window.location.origin;
+
+export const basePath = "/ProofShake.IT";
+
+export const baseUrl = `${baseUrlpriv}${basePath}/#`;
