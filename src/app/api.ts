@@ -17,11 +17,29 @@ export const serverApi = createApi({
       },
     }),
     statusSession: builder.mutation({
-      query(body) {
+      query({ sessionid }) {
         return {
-          url: "status-session",
+          url: "session-status",
           method: "POST",
-          body,
+          body: { sessionid },
+        };
+      },
+    }),
+    getStatusSession: builder.query({
+      query({ sessionid }) {
+        return {
+          url: "session-status",
+          method: "POST",
+          body: { sessionid },
+        };
+      },
+    }),
+    submitSessionResult: builder.mutation({
+      query({ sessionid, proofstring }) {
+        return {
+          url: "submit-session-result",
+          method: "POST",
+          body: { sessionid, proofstring },
         };
       },
     }),
@@ -30,4 +48,9 @@ export const serverApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useCreateSessionMutation, useStatusSessionMutation } = serverApi;
+export const {
+  useCreateSessionMutation,
+  useStatusSessionMutation,
+  useGetStatusSessionQuery,
+  useSubmitSessionResultMutation,
+} = serverApi;

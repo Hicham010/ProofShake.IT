@@ -42,7 +42,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           >
             <div
               style={{
-                backgroundColor: "#17375e",
+                // backgroundColor: "#17375e",
                 width: "100vw",
                 height: "100vh",
                 minHeight: "100vh",

@@ -21,7 +21,7 @@ function App() {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "end", padding: "5% 0" }}>
+      <div style={{ display: "flex", justifyContent: "end", padding: "3%" }}>
         <ConnectButton
           showBalance={true}
           accountStatus={"full"}
@@ -81,7 +81,7 @@ function App() {
         <Route path={"/challenge"}>
           <Challenge />
         </Route>
-        <Route path={"/prover/:ensName"}>
+        <Route path={"/prover/:sessionid/:ensName"}>
           <Prover />
         </Route>
         <Route path={"/verifier/:signature/:ensName"}>

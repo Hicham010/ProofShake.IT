@@ -1,19 +1,23 @@
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, QRCode } from "antd";
+import { Button, message } from "antd";
 import { constants } from "ethers";
 import { verifyMessage } from "ethers/lib/utils.js";
 import { useParams } from "react-router-dom";
 import { useAccount, useEnsAddress, useSignMessage } from "wagmi";
-import { baseUrl } from "./constants";
+import { useSubmitSessionResultMutation } from "./app/api";
 
 function Prover() {
-  const { ensName } = useParams<{ ensName: string }>();
+  const { ensName, sessionid } = useParams<{
+    ensName: string;
+    sessionid: string;
+  }>();
+  console.log({ sessionid });
   const { isConnected } = useAccount();
   const messageToSign = "gm wagmi frens";
   const {
     data = "0x0",
     isSuccess,
-    signMessage,
+    signMessageAsync,
   } = useSignMessage({
     message: messageToSign,
   });
@@ -28,11 +32,30 @@ function Prover() {
     ? verifyMessage(messageToSign, data)
     : constants.AddressZero;
 
+  const [submitSession] = useSubmitSessionResultMutation();
+
   return (
     <>
       <h1 style={{ textAlign: "center" }}>Proving ownership of {ensName}</h1>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button onClick={() => signMessage()}>Verify {ensName}</Button>
+        <Button
+          onClick={async () => {
+            try {
+              const signatureFromSigning = await signMessageAsync();
+              const resp = await submitSession({
+                sessionid,
+                proofstring: signatureFromSigning,
+              });
+              message.success("Proof successfully send");
+              console.log(resp);
+            } catch (error) {
+              console.error(error);
+              message.success("Failed to send proof");
+            }
+          }}
+        >
+          Verify {ensName}
+        </Button>
       </div>
       {isOwnerAddressRetrieved && isSuccess && (
         <>
@@ -53,10 +76,10 @@ function Prover() {
               Address is wrong <CloseOutlined style={{ color: "red" }} />
             </h3>
           )}
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          {/* <div style={{ display: "flex", justifyContent: "center" }}>
             <QRCode value={`${baseUrl}/verifier/${data}/${ensName}`} />
           </div>
-          {`${baseUrl}/verifier/${data}/${ensName}`}
+          {`${baseUrl}/verifier/${data}/${ensName}`} */}
         </>
       )}
       {ensNameOwner === null && isOwnerAddressRetrieved && (
