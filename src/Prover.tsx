@@ -39,6 +39,7 @@ function Prover() {
       <h1 style={{ textAlign: "center" }}>Proving ownership of {ensName}</h1>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Button
+          type="primary"
           onClick={async () => {
             try {
               const signatureFromSigning = await signMessageAsync();

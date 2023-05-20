@@ -40,9 +40,7 @@ function App() {
               src="./public/proofShakeLogo.PNG"
             />
           </div>
-          <h1 style={{ textAlign: "center", color: "white" }}>
-            Do you want to
-          </h1>
+          <h1 style={{ textAlign: "center" }}>Do you want to</h1>
           <div
             style={{
               display: "flex",
@@ -58,7 +56,7 @@ function App() {
             >
               <strong>Proof</strong>
             </Button>
-            <h3 style={{ textAlign: "center", color: "white" }}>Or</h3>
+            <h3 style={{ textAlign: "center" }}>Or</h3>
             <Button
               style={{ width: "35%", margin: "0 50px" }}
               type="primary"

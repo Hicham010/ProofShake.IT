@@ -76,18 +76,18 @@ function VerifyAddressOwnership() {
                 Signature:{" "}
                 {signatureFromParams === "" ? signature : signatureFromParams}
               </p> */}
-              <h1 style={{ textAlign: "center", color: "white" }}>
+              <h1 style={{ textAlign: "center" }}>
                 Verified address: {userAddress}
               </h1>
 
               {!isAddress(ensNameInput) && (
                 <>
                   {ensNameOwner ? (
-                    <h1 style={{ textAlign: "center", color: "white" }}>
+                    <h1 style={{ textAlign: "center" }}>
                       Owner of '{ensNameInput}' is {ensNameOwner}
                     </h1>
                   ) : (
-                    <h1 style={{ textAlign: "center", color: "white" }}>
+                    <h1 style={{ textAlign: "center" }}>
                       '{ensNameInput}' doesn't have an owner
                     </h1>
                   )}
@@ -101,11 +101,11 @@ function VerifyAddressOwnership() {
             ) : null} */}
 
               {ensNameOwner === userAddress ? (
-                <h3 style={{ textAlign: "center", color: "white" }}>
+                <h3 style={{ textAlign: "center" }}>
                   Proof is valid <CheckOutlined style={{ color: "green" }} />
                 </h3>
               ) : (
-                <h3 style={{ textAlign: "center", color: "white" }}>
+                <h3 style={{ textAlign: "center" }}>
                   Proof is invalid <CloseOutlined style={{ color: "red" }} />
                 </h3>
               )}

@@ -13,20 +13,16 @@ function Challenge() {
   const [provingSessionId, setProvingSessionId] = useState("");
   const [isChallengeVis, setIsChallengeVis] = useState(false);
 
-  const [createSession, { data, isLoading, isSuccess }] =
-    useCreateSessionMutation();
+  const [createSession, { data, isSuccess }] = useCreateSessionMutation();
   const messageToSign = "gm wagmi frens";
 
-  const {
-    data: sessionResult,
-    isLoading: isLoadingResult,
-    isSuccess: resultsRetrieved,
-  } = useGetStatusSessionQuery(
-    {
-      sessionid: data?.id,
-    },
-    { pollingInterval: 1000, skip: !isSuccess || !data?.id }
-  );
+  const { data: sessionResult, isSuccess: resultsRetrieved } =
+    useGetStatusSessionQuery(
+      {
+        sessionid: data?.id,
+      },
+      { pollingInterval: 1000, skip: !isSuccess || !data?.id }
+    );
 
   // if (isSuccess) {
   //   console.log({ data });
