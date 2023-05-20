@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import VerifyTokenOwnership from "./VerifyTokenOwnership";
-import { Button, message } from "antd";
+import { Button, Image, message } from "antd";
 import { Route, Switch, useHistory } from "react-router-dom";
 import Challenge from "./Challenge";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -21,7 +21,7 @@ function App() {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "end", margin: "3%" }}>
+      <div style={{ display: "flex", justifyContent: "end", padding: "5% 0" }}>
         <ConnectButton
           showBalance={true}
           accountStatus={"full"}
@@ -33,7 +33,16 @@ function App() {
           exact
           path={"/"}
         >
-          <h1 style={{ textAlign: "center" }}>Proof Shake</h1>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Image
+              width={400}
+              preview={false}
+              src="./public/proofShakeLogo.PNG"
+            />
+          </div>
+          <h1 style={{ textAlign: "center", color: "white" }}>
+            Do you want to
+          </h1>
           <div
             style={{
               display: "flex",
@@ -47,15 +56,15 @@ function App() {
               type="primary"
               onClick={() => history.push("/verifyAddressOwernship")}
             >
-              Single Proof
+              <strong>Proof</strong>
             </Button>
-            <h1>Or</h1>
+            <h3 style={{ textAlign: "center", color: "white" }}>Or</h3>
             <Button
               style={{ width: "35%", margin: "0 50px" }}
               type="primary"
               onClick={() => history.push("/challenge")}
             >
-              Challenge
+              <strong>Verify</strong>
             </Button>
           </div>
         </Route>

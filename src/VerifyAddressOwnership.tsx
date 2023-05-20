@@ -50,13 +50,21 @@ function VerifyAddressOwnership() {
           defaultValue={ensNameFromParams}
         />
         <Button
+          type="primary"
           disabled={
             !isConnected || ensNameInput === "" || !isValidName(ensNameInput)
           }
-          style={{ width: "20%", margin: "0 20px" }}
+          style={{
+            width: "20%",
+            margin: "0 20px",
+            background:
+              !isConnected || ensNameInput === "" || !isValidName(ensNameInput)
+                ? "grey"
+                : "",
+          }}
           onClick={() => signMessage()}
         >
-          Generate Proof
+          <strong>Generate Proof</strong>
         </Button>
       </div>
 
@@ -68,18 +76,18 @@ function VerifyAddressOwnership() {
                 Signature:{" "}
                 {signatureFromParams === "" ? signature : signatureFromParams}
               </p> */}
-              <h1 style={{ textAlign: "center" }}>
+              <h1 style={{ textAlign: "center", color: "white" }}>
                 Verified address: {userAddress}
               </h1>
 
               {!isAddress(ensNameInput) && (
                 <>
                   {ensNameOwner ? (
-                    <h1 style={{ textAlign: "center" }}>
+                    <h1 style={{ textAlign: "center", color: "white" }}>
                       Owner of '{ensNameInput}' is {ensNameOwner}
                     </h1>
                   ) : (
-                    <h1 style={{ textAlign: "center" }}>
+                    <h1 style={{ textAlign: "center", color: "white" }}>
                       '{ensNameInput}' doesn't have an owner
                     </h1>
                   )}
@@ -93,20 +101,33 @@ function VerifyAddressOwnership() {
             ) : null} */}
 
               {ensNameOwner === userAddress ? (
-                <h3 style={{ textAlign: "center" }}>
+                <h3 style={{ textAlign: "center", color: "white" }}>
                   Proof is valid <CheckOutlined style={{ color: "green" }} />
                 </h3>
               ) : (
-                <h3 style={{ textAlign: "center" }}>
+                <h3 style={{ textAlign: "center", color: "white" }}>
                   Proof is invalid <CloseOutlined style={{ color: "red" }} />
                 </h3>
               )}
               {signatureFromParams === "" && (
                 <>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <QRCode
-                      value={`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "auto",
+                        height: "auto",
+                        background: "white",
+                      }}
+                    >
+                      <QRCode
+                        value={`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
+                      />
+                    </div>
                   </div>
                   {/* <div>
                     {`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}

@@ -7,6 +7,9 @@ import { sepolia } from "@wagmi/core/chains";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { publicProvider } from "wagmi/providers/public";
 import { HashRouter } from "react-router-dom";
+import { store } from "./app/store";
+import { Provider } from "react-redux";
+
 import "@rainbow-me/rainbowkit/styles.css";
 
 const { chains, provider } = configureChains(
@@ -28,17 +31,28 @@ const wagmiClient = createClient({
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <HashRouter>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider
-          showRecentTransactions={true}
-          chains={chains}
-          coolMode={true}
-          modalSize={"compact"}
-        >
-          <App />
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </HashRouter>
+    <Provider store={store}>
+      <HashRouter>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider
+            showRecentTransactions={true}
+            chains={chains}
+            coolMode={true}
+            modalSize={"compact"}
+          >
+            <div
+              style={{
+                backgroundColor: "#17375e",
+                width: "100vw",
+                height: "100vh",
+                minHeight: "100vh",
+              }}
+            >
+              <App />
+            </div>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </HashRouter>
+    </Provider>
   </React.StrictMode>
 );
