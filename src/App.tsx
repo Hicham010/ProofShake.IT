@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import VerifyTokenOwnership from "./VerifyTokenOwnership";
-import { Button, message } from "antd";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { message } from "antd";
+import { Route, Switch } from "react-router-dom";
 import Challenge from "./Challenge";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Prover from "./Prover";
-import Verifier from "./Verifier";
+// import Verifier from "./Verifier";
 import VerifyAddressOwnership from "./VerifyAddressOwnership";
+import FrontPage from "./FrontPage";
 
 function App() {
   useEffect(() => {
@@ -16,8 +17,6 @@ function App() {
       duration: navigator.onLine ? Infinity : 0,
     });
   }, []);
-
-  const history = useHistory();
 
   return (
     <>
@@ -33,37 +32,7 @@ function App() {
           exact
           path={"/"}
         >
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <img
-              width={400}
-              src="proofShakeLogo.png"
-            />
-          </div>
-          <h1 style={{ textAlign: "center" }}>Do you want to</h1>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "15px",
-              alignItems: "baseline",
-            }}
-          >
-            <Button
-              style={{ width: "35%", margin: "0 50px" }}
-              type="primary"
-              onClick={() => history.push("/verifyAddressOwernship")}
-            >
-              <strong>Proof</strong>
-            </Button>
-            <h3 style={{ textAlign: "center" }}>Or</h3>
-            <Button
-              style={{ width: "35%", margin: "0 50px" }}
-              type="primary"
-              onClick={() => history.push("/challenge")}
-            >
-              <strong>Verify</strong>
-            </Button>
-          </div>
+          <FrontPage />
         </Route>
         <Route path={"/verifyOwernship"}>
           <VerifyTokenOwnership />
@@ -81,9 +50,9 @@ function App() {
         <Route path={"/prover/:sessionid/:ensName"}>
           <Prover />
         </Route>
-        <Route path={"/verifier/:signature/:ensName"}>
+        {/* <Route path={"/verifier/:signature/:ensName"}>
           <Verifier />
-        </Route>
+        </Route> */}
       </Switch>
     </>
   );

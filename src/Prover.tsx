@@ -5,6 +5,7 @@ import { isAddress, verifyMessage } from "ethers/lib/utils.js";
 import { useParams } from "react-router-dom";
 import { useAccount, useEnsAddress, useSignMessage } from "wagmi";
 import { useSubmitSessionResultMutation } from "./app/api";
+import { messageToSign } from "./constants";
 
 function Prover() {
   const { ensName, sessionid } = useParams<{
@@ -13,10 +14,10 @@ function Prover() {
   }>();
   console.log({ sessionid });
   const { isConnected } = useAccount();
-  const messageToSign = "gm wagmi frens";
   const {
     data = "0x0",
     isSuccess,
+    isLoading: isSigning,
     signMessageAsync,
   } = useSignMessage({
     message: messageToSign,
@@ -39,6 +40,7 @@ function Prover() {
       <h1 style={{ textAlign: "center" }}>Proving ownership of {ensName}</h1>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Button
+          loading={isSigning}
           type="primary"
           onClick={async () => {
             try {
@@ -80,11 +82,11 @@ function Prover() {
 
           {ensNameOwner === userAddress ? (
             <h3 style={{ textAlign: "center" }}>
-              Address is right <CheckOutlined style={{ color: "green" }} />
+              Proof is valid <CheckOutlined style={{ color: "green" }} />
             </h3>
           ) : (
             <h3 style={{ textAlign: "center" }}>
-              Address is wrong <CloseOutlined style={{ color: "red" }} />
+              Proof is invalid <CloseOutlined style={{ color: "red" }} />
             </h3>
           )}
           {/* <div style={{ display: "flex", justifyContent: "center" }}>

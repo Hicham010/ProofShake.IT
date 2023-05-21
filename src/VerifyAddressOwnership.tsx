@@ -5,7 +5,7 @@ import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAccount, useEnsAddress, useSignMessage } from "wagmi";
-import { baseUrl } from "./constants";
+import { baseUrl, messageToSign } from "./constants";
 
 function VerifyAddressOwnership() {
   const { signatureFromParams = "", ensNameFromParams = "" } = useParams<{
@@ -16,10 +16,10 @@ function VerifyAddressOwnership() {
 
   const { isConnected } = useAccount();
   const [ensNameInput, setEnsNameInput] = useState(ensNameFromParams);
-  const messageToSign = "Welcome to proof shake baby";
   const {
     data: signature = "0x0",
     isSuccess: isSigned,
+    isLoading: isSigning,
     signMessage,
   } = useSignMessage({
     message: messageToSign,
@@ -31,8 +31,15 @@ function VerifyAddressOwnership() {
       enabled: isConnected && isValidName(ensNameInput),
     });
 
+  // const [userAddressFromSignature, setUserAddressFromSignature] = useState(
+  //   constants.AddressZero
+  // );
+
+  const isParamsPresent =
+    signatureFromParams !== "" && ensNameFromParams !== "";
+
   const userAddress =
-    isSigned || signatureFromParams !== ""
+    isSigned || isParamsPresent
       ? verifyMessage(
           messageToSign,
           signatureFromParams === "" ? signature : signatureFromParams
@@ -43,7 +50,7 @@ function VerifyAddressOwnership() {
     <>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Input
-          disabled={signatureFromParams !== ""}
+          disabled={isParamsPresent}
           style={{ width: "50%" }}
           placeholder="Enter your ENS name to verify or public Address"
           onChange={(e) => setEnsNameInput(e.target.value)}
@@ -54,6 +61,7 @@ function VerifyAddressOwnership() {
           disabled={
             !isConnected || ensNameInput === "" || !isValidName(ensNameInput)
           }
+          loading={isSigning}
           style={{
             width: "20%",
             margin: "0 20px",
@@ -70,7 +78,7 @@ function VerifyAddressOwnership() {
 
       <div>
         {(isOwnerAddressRetrieved || isAddress(ensNameInput)) &&
-          (isSigned || signatureFromParams !== "") && (
+          (isSigned || isParamsPresent) && (
             <>
               {/* <p style={{ textAlign: "center" }}>
                 Signature:{" "}
@@ -129,9 +137,9 @@ function VerifyAddressOwnership() {
                       />
                     </div>
                   </div>
-                  {/* <div>
+                  <div>
                     {`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
-                  </div> */}
+                  </div>
                 </>
               )}
             </>

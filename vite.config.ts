@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [react()],
   base: "/ProofShake.IT/",
   server: {
-    proxy: {
-      "/server": "https://proofshake.it",
-    },
+    // proxy: {
+    //   "/server": "https://proofshake.it",
+    // },
   },
 });

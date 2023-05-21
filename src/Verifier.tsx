@@ -2,10 +2,10 @@ import { Spin } from "antd";
 import { verifyMessage } from "ethers/lib/utils.js";
 import { useParams } from "react-router-dom";
 import { useAccount, useEnsAddress } from "wagmi";
+import { messageToSign } from "./constants";
 
 function Verifier() {
   const { isConnected } = useAccount();
-  const messageToSign = "gm wagmi frens";
   const { signature, ensName } = useParams<{
     signature: string;
     ensName: string;
@@ -22,7 +22,10 @@ function Verifier() {
   return (
     <>
       <h1 style={{ textAlign: "center" }}>Verifier</h1>
-      <Spin spinning={isLoading}>
+      <Spin
+        size="large"
+        spinning={isLoading}
+      >
         <>
           {userAddress === ensNameOwner ? (
             <h3 style={{ textAlign: "center" }}>Verified</h3>

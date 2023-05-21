@@ -1,20 +1,19 @@
 import { Button, Divider, Input, QRCode, Spin } from "antd";
 import { useState } from "react";
-import { useAccount, useEnsAddress } from "wagmi";
-import { baseUrl } from "./constants";
+import { useEnsAddress } from "wagmi";
+import { baseUrl, messageToSign } from "./constants";
 import { useCreateSessionMutation, useGetStatusSessionQuery } from "./app/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
 import { constants } from "ethers";
 
 function Challenge() {
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
   const [ensNameInput, setEnsNameInput] = useState("");
   const [provingSessionId, setProvingSessionId] = useState("");
   const [isChallengeVis, setIsChallengeVis] = useState(false);
 
   const [createSession, { data, isSuccess }] = useCreateSessionMutation();
-  const messageToSign = "gm wagmi frens";
 
   const { data: sessionResult, isSuccess: resultsRetrieved } =
     useGetStatusSessionQuery(
@@ -28,18 +27,18 @@ function Challenge() {
   //   console.log({ data });
   // }
 
-  if (resultsRetrieved) {
-    console.log({ sessionResult });
-  }
+  // if (resultsRetrieved) {
+  //   console.log({ sessionResult });
+  // }
 
   const userAddress =
     resultsRetrieved && sessionResult.sessionstatus !== 0
       ? verifyMessage(messageToSign, sessionResult.sessionstatus)
       : constants.AddressZero;
 
-  const { data: ensNameOwner } = useEnsAddress({
+  const { data: ensNameOwner, isLoading: isLoadinEns } = useEnsAddress({
     name: ensNameInput,
-    enabled: isConnected && isValidName(ensNameInput),
+    enabled: isValidName(ensNameInput),
   });
 
   return (
@@ -52,11 +51,9 @@ function Challenge() {
         />
         <Button
           type="primary"
-          disabled={
-            !isConnected || ensNameInput === "" || !isValidName(ensNameInput)
-          }
+          disabled={ensNameInput === "" || !isValidName(ensNameInput)}
           onClick={async () => {
-            setIsChallengeVis((val) => !val);
+            setIsChallengeVis(true);
             try {
               const { id } = await createSession("").unwrap();
               setProvingSessionId(id);
@@ -70,7 +67,7 @@ function Challenge() {
         </Button>
       </div>
       {/* <div style={{ display: "flex", justifyContent: "center" }}>{ensName}</div> */}
-      {isConnected && isChallengeVis && (
+      {isChallengeVis && (
         <>
           <div
             style={{
@@ -112,6 +109,7 @@ function Challenge() {
                   sessionResult?.sessionstatus === 0
                 }
                 tip="Waiting on proof"
+                size="large"
               />
             </div>
           ) : (
@@ -120,27 +118,33 @@ function Challenge() {
                 Verified address: {userAddress}
               </h1>
 
-              {!isAddress(ensNameInput) && (
-                <>
-                  {ensNameOwner ? (
-                    <h1 style={{ textAlign: "center" }}>
-                      Owner of '{ensNameInput}' is {ensNameOwner}
-                    </h1>
-                  ) : (
-                    <h1 style={{ textAlign: "center" }}>
-                      '{ensNameInput}' doesn't have an owner
-                    </h1>
-                  )}
-                </>
+              {!isLoadinEns ? (
+                !isAddress(ensNameInput) && (
+                  <>
+                    {ensNameOwner ? (
+                      <h1 style={{ textAlign: "center" }}>
+                        Owner of '{ensNameInput}' is {ensNameOwner}
+                      </h1>
+                    ) : (
+                      <h1 style={{ textAlign: "center" }}>
+                        '{ensNameInput}' doesn't have an owner
+                      </h1>
+                    )}
+                  </>
+                )
+              ) : (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Spin size="large" />
+                </div>
               )}
 
               {ensNameOwner === userAddress ? (
                 <h3 style={{ textAlign: "center" }}>
-                  Address is right <CheckOutlined style={{ color: "green" }} />
+                  Proof is valid <CheckOutlined style={{ color: "green" }} />
                 </h3>
               ) : (
                 <h3 style={{ textAlign: "center" }}>
-                  Address is wrong <CloseOutlined style={{ color: "red" }} />
+                  Proof is invalid <CloseOutlined style={{ color: "red" }} />
                 </h3>
               )}
             </>

@@ -4,10 +4,10 @@ import { Button, Input, InputNumber, QRCode } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { BigNumber, constants } from "ethers";
+import { messageToSign } from "./constants";
 
 function VerifyTokenOwnership() {
   const { address, isConnected } = useAccount({ onConnect: () => reset() });
-  const messageToSign = "gm wagmi frens";
   const {
     data = "0x0",
     isSuccess,
@@ -100,11 +100,11 @@ function VerifyTokenOwnership() {
           </h1>
           {ownerAddress === userAddress ? (
             <h3 style={{ textAlign: "center" }}>
-              Address is right <CheckOutlined style={{ color: "green" }} />
+              Proof is valid <CheckOutlined style={{ color: "green" }} />
             </h3>
           ) : (
             <h3 style={{ textAlign: "center" }}>
-              Address is wrong <CloseOutlined style={{ color: "red" }} />
+              Proof is invalid <CloseOutlined style={{ color: "red" }} />
             </h3>
           )}
           <div style={{ display: "flex", justifyContent: "center" }}>
