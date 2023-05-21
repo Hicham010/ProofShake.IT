@@ -14,6 +14,10 @@ function genUUID()
     return crypto.randomBytes(20).toString('hex')
 }
 
+function logWithTime(s)
+{
+    console.log(new Date().toISOString(), "   ", s)
+}
 
 function cleanSessions()
 {
@@ -22,7 +26,7 @@ function cleanSessions()
     sessions.forEach((value, key) => {
         if (now - value.timestamp > 1000 * 60 * 60) {
             sessions.delete(key)
-            console.log("Deleted old key ", key)
+            logWithTime(`Deleted old key ${key}`)
         }
     })
 }
@@ -55,7 +59,7 @@ function resolveBody(req, body)
             }
         }
         catch (err) {
-            console.log(err)
+            logWithTime(err)
         }
     } 
 
@@ -63,7 +67,7 @@ function resolveBody(req, body)
     {
         cleanSessions()
 
-        console.log(sessions)
+        logWithTime(sessions)
 
         const newid = genUUID() 
         sessions.set(newid, {
@@ -83,14 +87,14 @@ function resolveBody(req, body)
             status : 400
         }
 
-        console.log(`Trying to get ${jsonbody["sessionid"]} from 'sessions'`)
+        logWithTime(`Trying to get ${jsonbody["sessionid"]} from 'sessions'`)
 
         try {
             
             const modifiedSession = sessions.get(jsonbody["sessionid"])
-            console.log(modifiedSession)
+            logWithTime(modifiedSession)
             modifiedSession.status = jsonbody["proofstring"]
-            console.log(modifiedSession)
+            logWithTime(modifiedSession)
             
             sessions.set(jsonbody["sessionid"], modifiedSession)
 
@@ -99,7 +103,7 @@ function resolveBody(req, body)
             }
         }
         catch (err) {
-            console.log(err)
+            logWithTime(err)
         }
     }
 
@@ -107,7 +111,7 @@ function resolveBody(req, body)
 }
 
 http.createServer(function (req, res) {
-    console.log(`Server will listen at : ${serverDomain}:${serverPort}`);
+    logWithTime(`Server will listen at : ${serverDomain}:${serverPort}`);
 
     let body = '';
     req.on('data', (chunk) => {
@@ -121,7 +125,7 @@ http.createServer(function (req, res) {
 
         //change the MIME type to 'application/json' 
         res.writeHead(200, {'Content-Type': 'application/json'});
-        console.log('Server Running');
+        logWithTime('Server Running');
         res.end( JSON.stringify(json_response) ); 
     });
     
