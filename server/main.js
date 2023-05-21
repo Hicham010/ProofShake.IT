@@ -125,6 +125,8 @@ http.createServer(function (req, res) {
 
 	// CORS
 	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Credentials', true);
+  	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         //change the MIME type to 'application/json' 
         res.writeHead(200, {'Content-Type': 'application/json'});
         logWithTime('Server Running');
