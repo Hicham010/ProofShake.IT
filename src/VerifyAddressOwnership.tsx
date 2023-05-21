@@ -63,7 +63,6 @@ function VerifyAddressOwnership() {
           }
           loading={isSigning}
           style={{
-            width: "20%",
             margin: "0 20px",
             background:
               !isConnected || ensNameInput === "" || !isValidName(ensNameInput)

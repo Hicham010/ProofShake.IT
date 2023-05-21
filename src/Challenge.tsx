@@ -1,4 +1,4 @@
-import { Button, Divider, Input, QRCode, Spin } from "antd";
+import { Button, Divider, Input, QRCode, Spin, message } from "antd";
 import { useState } from "react";
 import { useEnsAddress } from "wagmi";
 import { baseUrl, messageToSign, truncateAddress } from "./constants";
@@ -57,7 +57,9 @@ function Challenge() {
             try {
               const { id } = await createSession("").unwrap();
               setProvingSessionId(id);
+              message.success("Challenge successfully created");
             } catch (err) {
+              message.error("Failed to create Challenge");
               console.error(err);
             }
           }}
@@ -88,9 +90,9 @@ function Challenge() {
               />
             </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          {/* <div style={{ display: "flex", justifyContent: "center" }}>
             {`${baseUrl}/prover/${provingSessionId}/${ensNameInput}`}
-          </div>
+          </div> */}
 
           <Divider />
 
