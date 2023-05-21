@@ -71,11 +71,14 @@ function Challenge() {
       {/* <div style={{ display: "flex", justifyContent: "center" }}>{ensName}</div> */}
       {isChallengeVis && (
         <>
+          <h3 style={{ textAlign: "center" }}>
+            Share this code with the prover
+          </h3>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
-              margin: "25px",
+              marginTop: "25px",
             }}
           >
             <div
@@ -85,11 +88,9 @@ function Challenge() {
                 background: "white",
               }}
             >
-              <h3 style={{ textAlign: "center" }}>
-                Share this code with the prover
-              </h3>
               <QRCode
                 value={`${baseUrl}/prover/${provingSessionId}/${ensNameInput}`}
+                icon="proofShakeLogo.png"
               />
             </div>
             <CopyOutlined

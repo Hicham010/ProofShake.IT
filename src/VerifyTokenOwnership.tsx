@@ -110,6 +110,7 @@ function VerifyTokenOwnership() {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <QRCode
               value={"https://hicham010.github.io/hackathon-proof-of-address/"}
+              icon="proofShakeLogo.png"
             />
           </div>
         </>

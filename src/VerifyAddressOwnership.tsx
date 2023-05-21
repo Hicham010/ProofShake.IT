@@ -145,6 +145,7 @@ function VerifyAddressOwnership() {
                       >
                         <QRCode
                           value={`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
+                          icon="proofShakeLogo.png"
                         />
                       </div>
                     </Tooltip>
