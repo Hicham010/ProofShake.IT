@@ -3,12 +3,17 @@ import { useState } from "react";
 import { useEnsAddress } from "wagmi";
 import { baseUrl, messageToSign, truncateAddress } from "./constants";
 import { useCreateSessionMutation, useGetStatusSessionQuery } from "./app/api";
-import { CheckOutlined, CloseOutlined, CopyOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  CheckOutlined,
+  CloseCircleOutlined,
+  CloseOutlined,
+  CopyOutlined,
+} from "@ant-design/icons";
 import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
 import { constants } from "ethers";
 
 function Challenge() {
-  // const { isConnected } = useAccount();
   const [ensNameInput, setEnsNameInput] = useState("");
   const [provingSessionId, setProvingSessionId] = useState("");
   const [isChallengeVis, setIsChallengeVis] = useState(false);
@@ -103,9 +108,6 @@ function Challenge() {
               }}
             />
           </div>
-          {/* <div style={{ display: "flex", justifyContent: "center" }}>
-            {`${baseUrl}/prover/${provingSessionId}/${ensNameInput}`}
-          </div> */}
 
           <Divider />
 
@@ -131,11 +133,13 @@ function Challenge() {
             <>
               {ensNameOwner === userAddress ? (
                 <h1 style={{ textAlign: "center" }}>
-                  Proof is valid <CheckOutlined style={{ color: "green" }} />
+                  Proof is valid{" "}
+                  <CheckCircleOutlined style={{ color: "green" }} />
                 </h1>
               ) : (
                 <h1 style={{ textAlign: "center" }}>
-                  Proof is invalid <CloseOutlined style={{ color: "red" }} />
+                  Proof is invalid{" "}
+                  <CloseCircleOutlined style={{ color: "red" }} />
                 </h1>
               )}
 
