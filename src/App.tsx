@@ -37,10 +37,7 @@ function App() {
           />
         ) : null}
         <div>
-          <ConnectButton
-            showBalance={true}
-            accountStatus={"full"}
-          />
+          <ConnectButton />
         </div>
       </div>
 
