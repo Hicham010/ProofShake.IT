@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import VerifyTokenOwnership from "./VerifyTokenOwnership";
 import { message } from "antd";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import Challenge from "./Challenge";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Prover from "./Prover";
@@ -18,13 +18,30 @@ function App() {
     });
   }, []);
 
+  const location = useLocation();
+
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "end", padding: "3%" }}>
-        <ConnectButton
-          showBalance={true}
-          accountStatus={"full"}
-        />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: location.pathname !== "/" ? "space-between" : "end",
+          padding: "3%",
+        }}
+      >
+        {location.pathname !== "/" ? (
+          <img
+            width={200}
+            style={{ marginTop: "-2%" }}
+            src="proofShakeTitle.png"
+          />
+        ) : null}
+        <div>
+          <ConnectButton
+            showBalance={true}
+            accountStatus={"full"}
+          />
+        </div>
       </div>
 
       <Switch>
