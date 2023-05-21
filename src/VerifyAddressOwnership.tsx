@@ -1,9 +1,4 @@
-import {
-  CheckOutlined,
-  CloseOutlined,
-  CopyFilled,
-  CopyOutlined,
-} from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, CopyOutlined } from "@ant-design/icons";
 import { Button, Input, QRCode, message } from "antd";
 import { constants } from "ethers";
 import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
@@ -144,6 +139,7 @@ function VerifyAddressOwnership() {
                         navigator.clipboard.writeText(
                           `${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`
                         );
+                        message.success("Added proof link to clipboard");
                       }}
                     />
                   </div>

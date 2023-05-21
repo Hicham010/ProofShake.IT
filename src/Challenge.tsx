@@ -91,11 +91,12 @@ function Challenge() {
             </div>
             <CopyOutlined
               style={{ margin: "2%" }}
-              onClick={() =>
+              onClick={() => {
                 navigator.clipboard.writeText(
                   `${baseUrl}/prover/${provingSessionId}/${ensNameInput}`
-                )
-              }
+                );
+                message.success("Added prover link to clipboard");
+              }}
             />
           </div>
           {/* <div style={{ display: "flex", justifyContent: "center" }}>
