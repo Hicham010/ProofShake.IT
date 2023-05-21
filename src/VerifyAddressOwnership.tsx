@@ -5,7 +5,7 @@ import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAccount, useEnsAddress, useSignMessage } from "wagmi";
-import { baseUrl, messageToSign } from "./constants";
+import { baseUrl, messageToSign, truncateAddress } from "./constants";
 
 function VerifyAddressOwnership() {
   const { signatureFromParams = "", ensNameFromParams = "" } = useParams<{
@@ -52,7 +52,7 @@ function VerifyAddressOwnership() {
         <Input
           disabled={isParamsPresent}
           style={{ width: "50%" }}
-          placeholder="Enter your ENS name to verify or public Address"
+          placeholder="Enter your ENS name or address to verify or public Address"
           onChange={(e) => setEnsNameInput(e.target.value)}
           defaultValue={ensNameFromParams}
         />
@@ -85,7 +85,7 @@ function VerifyAddressOwnership() {
                 {signatureFromParams === "" ? signature : signatureFromParams}
               </p> */}
               <h1 style={{ textAlign: "center" }}>
-                Verified address: {userAddress}
+                Verified address: {truncateAddress(userAddress)}
               </h1>
 
               {!isAddress(ensNameInput) && (
@@ -137,9 +137,9 @@ function VerifyAddressOwnership() {
                       />
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     {`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
-                  </div>
+                  </div> */}
                 </>
               )}
             </>

@@ -1,7 +1,7 @@
 import { Button, Divider, Input, QRCode, Spin } from "antd";
 import { useState } from "react";
 import { useEnsAddress } from "wagmi";
-import { baseUrl, messageToSign } from "./constants";
+import { baseUrl, messageToSign, truncateAddress } from "./constants";
 import { useCreateSessionMutation, useGetStatusSessionQuery } from "./app/api";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
@@ -46,7 +46,7 @@ function Challenge() {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Input
           style={{ width: "50%" }}
-          placeholder="Fill in your ENS name"
+          placeholder="Fill in your ENS name or address"
           onChange={(e) => setEnsNameInput(e.target.value)}
         />
         <Button
@@ -115,7 +115,7 @@ function Challenge() {
           ) : (
             <>
               <h1 style={{ textAlign: "center" }}>
-                Verified address: {userAddress}
+                Verified address: {truncateAddress(userAddress)}
               </h1>
 
               {!isLoadinEns ? (

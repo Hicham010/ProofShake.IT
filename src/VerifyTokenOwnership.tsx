@@ -4,7 +4,7 @@ import { Button, Input, InputNumber, QRCode } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { BigNumber, constants } from "ethers";
-import { messageToSign } from "./constants";
+import { messageToSign, truncateAddress } from "./constants";
 
 function VerifyTokenOwnership() {
   const { address, isConnected } = useAccount({ onConnect: () => reset() });
@@ -93,7 +93,7 @@ function VerifyTokenOwnership() {
       {isOwnerAddressRetrieved && isSuccess && (
         <>
           <h1 style={{ textAlign: "center" }}>
-            Verified address: {userAddress}
+            Verified address: {truncateAddress(userAddress)}
           </h1>
           <h1 style={{ textAlign: "center" }}>
             Owner of token {tokenId.toString()} is {ownerAddress}

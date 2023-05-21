@@ -5,7 +5,7 @@ import { isAddress, verifyMessage } from "ethers/lib/utils.js";
 import { useParams } from "react-router-dom";
 import { useAccount, useEnsAddress, useSignMessage } from "wagmi";
 import { useSubmitSessionResultMutation } from "./app/api";
-import { messageToSign } from "./constants";
+import { messageToSign, truncateAddress } from "./constants";
 
 function Prover() {
   const { ensName, sessionid } = useParams<{
@@ -63,7 +63,7 @@ function Prover() {
       {isOwnerAddressRetrieved && isSuccess && (
         <>
           <h1 style={{ textAlign: "center" }}>
-            Verified address: {userAddress}
+            Verified address: {truncateAddress(userAddress)}
           </h1>
 
           {!isAddress(ensName) && (
