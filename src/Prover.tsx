@@ -65,7 +65,7 @@ function Prover() {
             }
           }}
         >
-          Verify {truncatedAddrOrEns}
+          Verify
         </Button>
       </div>
       {isOwnerAddressRetrieved && isSuccess && (

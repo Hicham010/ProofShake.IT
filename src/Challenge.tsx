@@ -5,9 +5,7 @@ import { baseUrl, messageToSign, truncateAddress } from "./constants";
 import { useCreateSessionMutation, useGetStatusSessionQuery } from "./app/api";
 import {
   CheckCircleOutlined,
-  CheckOutlined,
   CloseCircleOutlined,
-  CloseOutlined,
   CopyOutlined,
 } from "@ant-design/icons";
 import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
