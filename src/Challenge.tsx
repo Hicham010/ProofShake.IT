@@ -85,6 +85,9 @@ function Challenge() {
                 background: "white",
               }}
             >
+              <h3 style={{ textAlign: "center" }}>
+                Share this code with the prover
+              </h3>
               <QRCode
                 value={`${baseUrl}/prover/${provingSessionId}/${ensNameInput}`}
               />
@@ -135,9 +138,9 @@ function Challenge() {
                 </h1>
               )}
 
-              <h3 style={{ textAlign: "center" }}>
+              {/* <h3 style={{ textAlign: "center" }}>
                 Verified address: {truncateAddress(userAddress)}
-              </h3>
+              </h3> */}
 
               {!isLoadinEns ? (
                 !isAddress(ensNameInput) && (

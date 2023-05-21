@@ -1,8 +1,4 @@
-import {
-  CheckCircleOutlined,
-  CheckOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import { constants } from "ethers";
 import { isAddress, verifyMessage } from "ethers/lib/utils.js";
@@ -79,17 +75,14 @@ function Prover() {
               Proof is valid <CheckCircleOutlined style={{ color: "green" }} />
             </h1>
           ) : (
-            <>
-              <h1 style={{ textAlign: "center" }}>Proof is invalid</h1>
-              <div>
-                <CloseOutlined style={{ color: "red" }} />
-              </div>
-            </>
+            <h1 style={{ textAlign: "center" }}>
+              Proof is invalid <CloseCircleOutlined style={{ color: "red" }} />
+            </h1>
           )}
 
-          <h3 style={{ textAlign: "center" }}>
+          {/* <h3 style={{ textAlign: "center" }}>
             Verified address: {truncateAddress(userAddress)}
-          </h3>
+          </h3> */}
 
           {!isAddress(ensNameOrAddress) && (
             <>

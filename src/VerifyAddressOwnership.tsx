@@ -1,6 +1,6 @@
 import {
   CheckCircleOutlined,
-  CloseOutlined,
+  CloseCircleOutlined,
   CopyOutlined,
 } from "@ant-design/icons";
 import { Button, Input, QRCode, Tooltip, message } from "antd";
@@ -78,7 +78,7 @@ function VerifyAddressOwnership() {
         </Button>
       </div>
 
-      <div>
+      <div style={{ marginTop: "5%" }}>
         {(isOwnerAddressRetrieved || isAddress(ensNameInput)) &&
           (isSigned || isParamsPresent) && (
             <>
@@ -88,19 +88,22 @@ function VerifyAddressOwnership() {
               </p> */}
 
               {ensNameOwner === userAddress ? (
-                <h1 style={{ textAlign: "center" }}>
-                  Proof is valid{" "}
-                  <CheckCircleOutlined style={{ color: "green" }} />
-                </h1>
+                <>
+                  <h1 style={{ textAlign: "center" }}>
+                    Proof is valid{" "}
+                    <CheckCircleOutlined style={{ color: "green" }} />
+                  </h1>
+                </>
               ) : (
                 <h1 style={{ textAlign: "center" }}>
-                  Proof is invalid <CloseOutlined style={{ color: "red" }} />
+                  Proof is invalid{" "}
+                  <CloseCircleOutlined style={{ color: "red" }} />
                 </h1>
               )}
 
-              <h3 style={{ textAlign: "center" }}>
+              {/* <h3 style={{ textAlign: "center" }}>
                 Verified address: {truncateAddress(userAddress)}
-              </h3>
+              </h3> */}
 
               {!isAddress(ensNameInput) && (
                 <>
@@ -129,6 +132,7 @@ function VerifyAddressOwnership() {
                     style={{
                       display: "flex",
                       justifyContent: "center",
+                      marginTop: "10%",
                     }}
                   >
                     <Tooltip title={"Share to verify"}>
@@ -137,7 +141,6 @@ function VerifyAddressOwnership() {
                           width: "auto",
                           height: "auto",
                           background: "white",
-                          marginBottom: "auto",
                         }}
                       >
                         <QRCode

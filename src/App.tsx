@@ -38,9 +38,11 @@ function App() {
             onClick={() => history.push("/")}
           />
         ) : null}
-        <div>
-          <ConnectButton />
-        </div>
+        {location.pathname !== "/challenge" ? (
+          <div>
+            <ConnectButton />
+          </div>
+        ) : null}
       </div>
 
       <Switch>
