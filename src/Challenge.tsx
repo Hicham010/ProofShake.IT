@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEnsAddress } from "wagmi";
 import { baseUrl, messageToSign, truncateAddress } from "./constants";
 import { useCreateSessionMutation, useGetStatusSessionQuery } from "./app/api";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, CopyOutlined } from "@ant-design/icons";
 import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
 import { constants } from "ethers";
 
@@ -89,6 +89,14 @@ function Challenge() {
                 value={`${baseUrl}/prover/${provingSessionId}/${ensNameInput}`}
               />
             </div>
+            <CopyOutlined
+              style={{ margin: "2%" }}
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `${baseUrl}/prover/${provingSessionId}/${ensNameInput}`
+                )
+              }
+            />
           </div>
           {/* <div style={{ display: "flex", justifyContent: "center" }}>
             {`${baseUrl}/prover/${provingSessionId}/${ensNameInput}`}
@@ -125,7 +133,8 @@ function Challenge() {
                   <>
                     {ensNameOwner ? (
                       <h1 style={{ textAlign: "center" }}>
-                        Owner of '{ensNameInput}' is {ensNameOwner}
+                        Owner of '{ensNameInput}' is{" "}
+                        {truncateAddress(ensNameOwner)}
                       </h1>
                     ) : (
                       <h1 style={{ textAlign: "center" }}>

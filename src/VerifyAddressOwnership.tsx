@@ -1,5 +1,10 @@
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Input, QRCode } from "antd";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  CopyFilled,
+  CopyOutlined,
+} from "@ant-design/icons";
+import { Button, Input, QRCode, message } from "antd";
 import { constants } from "ethers";
 import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
 import { useState } from "react";
@@ -28,12 +33,8 @@ function VerifyAddressOwnership() {
   const { data: ensNameOwner, isSuccess: isOwnerAddressRetrieved } =
     useEnsAddress({
       name: ensNameInput,
-      enabled: isConnected && isValidName(ensNameInput),
+      enabled: isValidName(ensNameInput),
     });
-
-  // const [userAddressFromSignature, setUserAddressFromSignature] = useState(
-  //   constants.AddressZero
-  // );
 
   const isParamsPresent =
     signatureFromParams !== "" && ensNameFromParams !== "";
@@ -64,10 +65,10 @@ function VerifyAddressOwnership() {
           loading={isSigning}
           style={{
             margin: "0 20px",
-            background:
-              !isConnected || ensNameInput === "" || !isValidName(ensNameInput)
-                ? "grey"
-                : "",
+            // background:
+            //   !isConnected || ensNameInput === "" || !isValidName(ensNameInput)
+            //     ? "grey"
+            //     : "",
           }}
           onClick={() => signMessage()}
         >
@@ -91,7 +92,8 @@ function VerifyAddressOwnership() {
                 <>
                   {ensNameOwner ? (
                     <h1 style={{ textAlign: "center" }}>
-                      Owner of '{ensNameInput}' is {ensNameOwner}
+                      Owner of '{ensNameInput}' is{" "}
+                      {truncateAddress(ensNameOwner)}
                     </h1>
                   ) : (
                     <h1 style={{ textAlign: "center" }}>
@@ -135,8 +137,18 @@ function VerifyAddressOwnership() {
                         value={`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
                       />
                     </div>
+
+                    <CopyOutlined
+                      style={{ margin: "2%" }}
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          `${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`
+                        );
+                      }}
+                    />
                   </div>
-                  {/* <div>
+                  {/* 
+                  <div>
                     {`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
                   </div> */}
                 </>

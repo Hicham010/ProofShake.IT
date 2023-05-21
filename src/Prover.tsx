@@ -8,10 +8,11 @@ import { useSubmitSessionResultMutation } from "./app/api";
 import { messageToSign, truncateAddress } from "./constants";
 
 function Prover() {
-  const { ensName, sessionid } = useParams<{
-    ensName: string;
+  const { ensNameOrAddress, sessionid } = useParams<{
+    ensNameOrAddress: string;
     sessionid: string;
   }>();
+  console.log({ ensNameOrAddress, sessionid });
   console.log({ sessionid });
   const { isConnected } = useAccount();
   const {
@@ -25,7 +26,7 @@ function Prover() {
 
   const { data: ensNameOwner, isSuccess: isOwnerAddressRetrieved } =
     useEnsAddress({
-      name: ensName,
+      name: ensNameOrAddress,
       enabled: isConnected,
     });
 
@@ -35,9 +36,15 @@ function Prover() {
 
   const [submitSession] = useSubmitSessionResultMutation();
 
+  const truncatedAddrOrEns = isAddress(ensNameOrAddress)
+    ? truncateAddress(ensNameOrAddress)
+    : ensNameOrAddress;
+
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Proving ownership of {ensName}</h1>
+      <h1 style={{ textAlign: "center" }}>
+        Proving ownership of {truncatedAddrOrEns}
+      </h1>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Button
           loading={isSigning}
@@ -57,7 +64,7 @@ function Prover() {
             }
           }}
         >
-          Verify {ensName}
+          Verify {truncatedAddrOrEns}
         </Button>
       </div>
       {isOwnerAddressRetrieved && isSuccess && (
@@ -66,15 +73,15 @@ function Prover() {
             Verified address: {truncateAddress(userAddress)}
           </h1>
 
-          {!isAddress(ensName) && (
+          {!isAddress(ensNameOrAddress) && (
             <>
               {ensNameOwner ? (
                 <h1 style={{ textAlign: "center" }}>
-                  Owner of '{ensName}' is {ensNameOwner}
+                  Owner of '{truncatedAddrOrEns}' is {ensNameOwner}
                 </h1>
               ) : (
                 <h1 style={{ textAlign: "center" }}>
-                  '{ensName}' doesn't have an owner
+                  '{truncatedAddrOrEns}' doesn't have an owner
                 </h1>
               )}
             </>
@@ -97,7 +104,7 @@ function Prover() {
       )}
       {ensNameOwner === null && isOwnerAddressRetrieved && (
         <h1 style={{ textAlign: "center" }}>
-          The ENS name '{ensName}' is invalid
+          The ENS name '{truncatedAddrOrEns}' is invalid
         </h1>
       )}
     </>
