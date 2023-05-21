@@ -123,6 +123,8 @@ http.createServer(function (req, res) {
 
         let json_response = resolveBody(req, body)
 
+	// CORS
+	res.setHeader('Access-Control-Allow-Origin', '*');
         //change the MIME type to 'application/json' 
         res.writeHead(200, {'Content-Type': 'application/json'});
         logWithTime('Server Running');
