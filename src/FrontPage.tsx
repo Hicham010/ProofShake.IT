@@ -25,7 +25,7 @@ function FrontPage() {
           type="primary"
           onClick={() => history.push("/verifyAddressOwernship")}
         >
-          <strong>Proof</strong>
+          <strong>Prove</strong>
         </Button>
         <h3 style={{ textAlign: "center" }}>Or</h3>
         <Button

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./App";
 
 import { WagmiConfig, configureChains, createClient, mainnet } from "wagmi";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
@@ -10,9 +10,6 @@ import { store } from "./app/store";
 import { Provider } from "react-redux";
 
 import "@rainbow-me/rainbowkit/styles.css";
-// import "antd/dist/antd.css";
-
-// import { ConfigProvider } from "antd";
 
 const { chains, provider } = configureChains([mainnet], [publicProvider()]);
 
@@ -28,23 +25,8 @@ const wagmiClient = createClient({
   provider,
 });
 
-// const proofShakeTheme = {
-// colorPrimary: "#a3daff",
-// colorSecondary: "#a3daff",
-// colorLink: "#559b7b",
-// colorError: "#EC4D4F",
-// colorWarning: "#FFF962",
-// colorSuccess: "#52c41a",
-// colorInfo: "#1890ff",
-// };
-
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    {/* <ConfigProvider
-      theme={{
-        token: proofShakeTheme,
-      }}
-    > */}
     <Provider store={store}>
       <HashRouter>
         <WagmiConfig client={wagmiClient}>
@@ -59,6 +41,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </WagmiConfig>
       </HashRouter>
     </Provider>
-    {/* </ConfigProvider> */}
   </React.StrictMode>
 );

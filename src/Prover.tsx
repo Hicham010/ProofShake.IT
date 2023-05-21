@@ -1,4 +1,8 @@
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import { Button, message } from "antd";
 import { constants } from "ethers";
 import { isAddress, verifyMessage } from "ethers/lib/utils.js";
@@ -12,8 +16,8 @@ function Prover() {
     ensNameOrAddress: string;
     sessionid: string;
   }>();
-  console.log({ ensNameOrAddress, sessionid });
-  console.log({ sessionid });
+  // console.log({ ensNameOrAddress, sessionid });
+  // console.log({ sessionid });
   const { isConnected } = useAccount();
   const {
     data = "0x0",
@@ -48,6 +52,7 @@ function Prover() {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Button
           loading={isSigning}
+          disabled={!isConnected}
           type="primary"
           onClick={async () => {
             try {
@@ -69,9 +74,22 @@ function Prover() {
       </div>
       {isOwnerAddressRetrieved && isSuccess && (
         <>
-          <h1 style={{ textAlign: "center" }}>
+          {ensNameOwner === userAddress ? (
+            <h1 style={{ textAlign: "center" }}>
+              Proof is valid <CheckCircleOutlined style={{ color: "green" }} />
+            </h1>
+          ) : (
+            <>
+              <h1 style={{ textAlign: "center" }}>Proof is invalid</h1>
+              <div>
+                <CloseOutlined style={{ color: "red" }} />
+              </div>
+            </>
+          )}
+
+          <h3 style={{ textAlign: "center" }}>
             Verified address: {truncateAddress(userAddress)}
-          </h1>
+          </h3>
 
           {!isAddress(ensNameOrAddress) && (
             <>
@@ -87,15 +105,6 @@ function Prover() {
             </>
           )}
 
-          {ensNameOwner === userAddress ? (
-            <h3 style={{ textAlign: "center" }}>
-              Proof is valid <CheckOutlined style={{ color: "green" }} />
-            </h3>
-          ) : (
-            <h3 style={{ textAlign: "center" }}>
-              Proof is invalid <CloseOutlined style={{ color: "red" }} />
-            </h3>
-          )}
           {/* <div style={{ display: "flex", justifyContent: "center" }}>
             <QRCode value={`${baseUrl}/verifier/${data}/${ensName}`} />
           </div>

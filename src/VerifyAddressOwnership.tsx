@@ -1,5 +1,9 @@
-import { CheckOutlined, CloseOutlined, CopyOutlined } from "@ant-design/icons";
-import { Button, Input, QRCode, message } from "antd";
+import {
+  CheckCircleOutlined,
+  CloseOutlined,
+  CopyOutlined,
+} from "@ant-design/icons";
+import { Button, Input, QRCode, Tooltip, message } from "antd";
 import { constants } from "ethers";
 import { isAddress, isValidName, verifyMessage } from "ethers/lib/utils.js";
 import { useState } from "react";
@@ -23,6 +27,9 @@ function VerifyAddressOwnership() {
     signMessage,
   } = useSignMessage({
     message: messageToSign,
+    onError: () => {
+      message.error("Something went wrong when signing");
+    },
   });
 
   const { data: ensNameOwner, isSuccess: isOwnerAddressRetrieved } =
@@ -55,7 +62,7 @@ function VerifyAddressOwnership() {
         <Button
           type="primary"
           disabled={
-            !isConnected || ensNameInput === "" || !isValidName(ensNameInput)
+            !isConnected || isParamsPresent || !isValidName(ensNameInput)
           }
           loading={isSigning}
           style={{
@@ -79,9 +86,21 @@ function VerifyAddressOwnership() {
                 Signature:{" "}
                 {signatureFromParams === "" ? signature : signatureFromParams}
               </p> */}
-              <h1 style={{ textAlign: "center" }}>
+
+              {ensNameOwner === userAddress ? (
+                <h1 style={{ textAlign: "center" }}>
+                  Proof is valid{" "}
+                  <CheckCircleOutlined style={{ color: "green" }} />
+                </h1>
+              ) : (
+                <h1 style={{ textAlign: "center" }}>
+                  Proof is invalid <CloseOutlined style={{ color: "red" }} />
+                </h1>
+              )}
+
+              <h3 style={{ textAlign: "center" }}>
                 Verified address: {truncateAddress(userAddress)}
-              </h1>
+              </h3>
 
               {!isAddress(ensNameInput) && (
                 <>
@@ -104,15 +123,6 @@ function VerifyAddressOwnership() {
               </h1>
             ) : null} */}
 
-              {ensNameOwner === userAddress ? (
-                <h3 style={{ textAlign: "center" }}>
-                  Proof is valid <CheckOutlined style={{ color: "green" }} />
-                </h3>
-              ) : (
-                <h3 style={{ textAlign: "center" }}>
-                  Proof is invalid <CloseOutlined style={{ color: "red" }} />
-                </h3>
-              )}
               {signatureFromParams === "" && (
                 <>
                   <div
@@ -121,17 +131,20 @@ function VerifyAddressOwnership() {
                       justifyContent: "center",
                     }}
                   >
-                    <div
-                      style={{
-                        width: "auto",
-                        height: "auto",
-                        background: "white",
-                      }}
-                    >
-                      <QRCode
-                        value={`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
-                      />
-                    </div>
+                    <Tooltip title={"Share to verify"}>
+                      <div
+                        style={{
+                          width: "auto",
+                          height: "auto",
+                          background: "white",
+                          marginBottom: "auto",
+                        }}
+                      >
+                        <QRCode
+                          value={`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
+                        />
+                      </div>
+                    </Tooltip>
 
                     <CopyOutlined
                       style={{ margin: "2%" }}
@@ -143,10 +156,6 @@ function VerifyAddressOwnership() {
                       }}
                     />
                   </div>
-                  {/* 
-                  <div>
-                    {`${baseUrl}/verifyAddressOwernship/${signature}/${ensNameInput}`}
-                  </div> */}
                 </>
               )}
             </>

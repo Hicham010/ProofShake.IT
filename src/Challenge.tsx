@@ -125,9 +125,19 @@ function Challenge() {
             </div>
           ) : (
             <>
-              <h1 style={{ textAlign: "center" }}>
+              {ensNameOwner === userAddress ? (
+                <h1 style={{ textAlign: "center" }}>
+                  Proof is valid <CheckOutlined style={{ color: "green" }} />
+                </h1>
+              ) : (
+                <h1 style={{ textAlign: "center" }}>
+                  Proof is invalid <CloseOutlined style={{ color: "red" }} />
+                </h1>
+              )}
+
+              <h3 style={{ textAlign: "center" }}>
                 Verified address: {truncateAddress(userAddress)}
-              </h1>
+              </h3>
 
               {!isLoadinEns ? (
                 !isAddress(ensNameInput) && (
@@ -148,16 +158,6 @@ function Challenge() {
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <Spin size="large" />
                 </div>
-              )}
-
-              {ensNameOwner === userAddress ? (
-                <h3 style={{ textAlign: "center" }}>
-                  Proof is valid <CheckOutlined style={{ color: "green" }} />
-                </h3>
-              ) : (
-                <h3 style={{ textAlign: "center" }}>
-                  Proof is invalid <CloseOutlined style={{ color: "red" }} />
-                </h3>
               )}
             </>
           )}
